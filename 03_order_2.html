@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>内置指令2</title>
+        <style type="text/css">
+			.red{
+				color: red;
+			}
+			.blue{
+				color: blue;
+			}
+        </style>
+    </head>
+    <body ng-app="app">
+    	<!-- ng-repeat指令 -->
+    	<div ng-controller="ctrl">
+    	<!-- {{students}} -->
+    		<ul>
+    			<li ng-repeat="key in students"> {{key}}</li>
+    			<li ng-repeat="(key,val) in students"> {{key+1}},{{val}}</li>
+    			<li ng-repeat="key in stud"> {{key.name}}</li>
+    		</ul>
+    		<img ng-src="{{path}}" >
+    		<br>
+    		<!-- ng-switch -->
+    		<select ng-model="select">
+    			<option value="01">HTML</option>
+    			<option value="02">CSS</option>
+    			<option value="03">JS</option>
+    		</select>
+    		<div ng-switch="select">
+    			<div ng-switch-when="01">
+    				<ul>
+    					<li>html基础</li>
+    					<li>html高级</li>
+    					<li>html提高</li>
+    				</ul>
+
+    			</div>
+    			<div ng-switch-when="02">CSS</div>
+    			<div ng-switch-when="03">JS</div>
+    		</div>
+    		<!-- ng-class -->
+    		<ul>
+    			<li class="red">红色</li>
+    			<li ng-class="{blue:true}">蓝色</li>
+    			<li ng-class="{blue:false,red:true}">蓝色</li>
+    		</ul>
+    		<!-- ng-disabled -->
+    		<input type="text" ng-disabled="true">
+    		<input type="text" ng-disabled="false">
+			<!-- ng-readonly -->
+    		<input type="text" value="文本框" ng-readonly="true"> 
+    		<input type="text" value="文本框" ng-readonly="false"> 
+			<!-- ng-checked -->
+    		<ul>
+    			<li><input type="checkbox" ng-checked="true">游泳</li>
+    			<li><input type="checkbox">画画</li>
+    			<!-- ng-selected -->
+    			<select>
+    				<option value="1">下棋</option>
+    				<option value="2">游泳</option>
+    				<option value="3" ng-selected="true">画画</option>
+    			</select>
+    		</ul>
+ 
+    	</div>
+    	<!-- ng-include -->
+    	<div ng-include="'footer.html'"></div>
+
+
+
+    </body>
+    <script src="angular.min.js"></script>
+    <script type="text/javascript">
+    	var app = angular.module("app",[]);
+    	app.controller("ctrl",["$scope",function($scope){
+    		$scope.students = ["zhangsan","lisi","wangwu","jack"];
+    		$scope.stud = [{"name":"lisi"},{"name":"jack"}];
+    		$scope.path = "img1.jpg";
+    	}])
+
+
+    </script>
+</html>

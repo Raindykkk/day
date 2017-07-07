@@ -1,0 +1,264 @@
+<script type="text/javascript">
+
+
+
+--AngularJs--
+	1、什么是AngularJs?
+		 是一个前端框架，以数据和逻辑为核心(驱动)
+		 而jQuery是以DOM为核心(驱动)
+
+	2、设计模式:MVC模式
+		 Model: 		模型层，主要用来处理数据，一般指操作数据库
+		 View:  		视图层，主要用来展示数据，一般通过HTML展示
+		 Controller：   控制层，一般用来做连接模型层与视图层的桥梁
+
+	3、AngularJs的模块化概念(module)
+		 使用AngularJs构建一个应用程序是以模块的方式组织的
+		 AngularJs应用程序的编写分为三大步
+		 1) 定义应用  ng-app="abc"
+		 2) 定义模块  var app = angular.module("abc",[]);
+			module里有2个参数，第一个是应用名称，第二个是数组，数组里是该模块所依赖的模块
+		 3) 定义控制器 app.controller("ctrl",[]);
+			第一个参数是控制器名称，第二个参数是数组，里面有多个元素，
+			其中前面的为字符串，是AngularJs自己定义好的东西，最后一个元素为function(){}
+			
+	4、AngularJs的指令
+		AngularJs自己已经定义好的指令，内置指令
+			都是以ng- 开头，属于AngularJs的核心内容
+			ng-app         : 定义应用,指定应用的根目录，至少有一个元素指定了此属性
+			ng-model       : 定义绑定数据的名称
+			ng-controller  : 定义控制器作用的范围
+			ng-bind        : 数据绑定
+			ng-show/ng-hide: 显示或隐藏 
+				(ng-show 用于显示或隐藏某个节点，当值为0或者false时，隐藏该节点 
+				    						     当值为1或者true时，显示该节点)
+			ng-click        : 单击
+			ng-if           : 判断某个节点是否存在，存在则显示，不存在就不显示
+			ng-repeat       : 遍历 迭代
+			ng-src          : 图片
+			ng-switch       ：切换          配合  ng-switch-when
+		    ne-class        : 类              ng-class="{blue:true/false}"
+			ng-disabled     : 无法修改        ng-disabled="true/false"
+			ng-readyonly    : 只读 无法操作   ng-readonly="true/false"
+			ng-selected     : 复选框 选中     ng-selected="true"
+			ng-checked      : 下拉菜单 选中   ng-checked="true"
+			ng-include      : 用于引入另一个页面文件
+			 	(注意点:使用ng-include时，页面发送请求的，需要通过服务器访问
+			 			ng-include="'路径'" 请求的资源路径需要放在单引号里面)
+
+		自定义指令：
+			通过模块调用directive方法来定义指令
+			定义好的指令有4种方式去使用
+			元素 E   <self-order></self-order>
+			属性 A   <div self-order></div>
+			类   C   <div class="self-order"></div>
+			注释 M
+			其中E(element)、A(attribute)是默认都可以使用的方式
+			如果需要通过类名或注释来调用，需要添加restrict,设置添加C(Class)或者M(Mark)
+				(如果不加restrict，默认restrict就是E A ,
+			 	 如果添加了restrict,默认的就无效)
+			如果通过注释去调用指令，还需要添加一个replace:true, 如果不添加，则指令就真的被注释了
+			在使用注释的方式时，需要有新的元素节点来替换原来注释的地方
+
+			如果访问的是一个普通的字符串，使用template就可以
+			如果访问的是一个url,需要使用templateUrl,同时，要从服务器访问
+
+二、常见事件
+	1、单击
+		ng-click
+	2、双击
+		ng-dblclick
+	3、鼠标移入
+		ng-mouseenter
+	4、鼠标移出
+		ng-mouseleave
+	5、失去焦点
+		ng-blur
+	6、文本框值的改变
+		ng-change   (ng-change触发时，文本框内的内容是经过trim处理的)
+
+三、数据绑定
+	1、单向数据绑定
+	2、双向数据绑定
+	3、数据的初始化
+
+四、作用域
+	因为控制器最终跟HTML节点关联，而节点之间又存在包含关系，
+	导致控制器之间也有包含关系，最终导致$scope之间有不同的作用域。
+
+	根作用域:
+		$rootScope,跟app绑定，作用域的范围是整个app
+		ng-init 跟在应用中，那么ng-init绑定在$rootScope上，范围就是整个app
+	子作用域:
+		$scope,跟控制器绑定，作用域的范围就是控制器的范围
+
+五、过滤器
+  1、AngularJs中使用过滤器进行格式化展示数据，在{{}}中使用 | (管道符号)
+	如果需要传递参数，使用 ：来分隔传递的参数
+	过滤器的使用还可以通过
+
+	9个内置过滤器:
+	1.currency : 将数字格式的数据格式化为货币格式 $5.0  ￥10.00
+				 默认格式是$10.00 如果想要使用其他的货币符号，在currency后面添加参数(currency:"￥")
+	2.date : 格式化日期
+	3.filter : 从数组中选择一个子集,如果过滤的条件是一个对象，最后的 } 后需要加一个空格
+	4.json : 将对象转换为json格式
+	5.limitTo : 限制数组或字符串的长度
+				参数为正数时，从头开始截取;参数为负数时，从后面开始截取
+	6.number : 给数字添加千位分割符，如果没有参数，默认保留3位有效小数位
+				参数为正数，保留小数点后n位;参数为负数，保留小数点前n位
+	7.orderBy : 排序
+			无参数:默认排序,升序
+			字符串:将对象数组中按照对应的属性名进行排序，默认升序，
+				   如果需要降序，添加第二个参数，true(false是默认的 升序)
+				   在字符串前面加一个 + 表示升序， - 表示降序
+			数 组：按照多个属性进行排序，第一个相同就比较第二个
+	8.uppercase : 转大写
+	9.lowercase : 转小写
+
+   2、自定义过滤器
+   	调用filter方法定义一个过滤器
+   	首字符大写
+
+  ------------------
+  作业：
+  	1、复习当天所有的代码
+  	2、练习过滤器的内容
+  		1） 文本框输入内容，在文本框下方同步显示
+  			数字改成货币形式
+  			字符串形式，截取前面3个 截取后面3个
+  			格式化日期的 2017年7月23日 17点12分23秒
+  			创建一个对象数组(对象包括id name age)，过滤之后,只显示名字中含有m的人
+  			给该对象数组排序，按照id name age 分别排序一次(升序 降序)
+  		2）	自定义两个过滤器
+  			将字符串反转
+  			将字符串奇数位变为大写
+
+六、依赖注入
+	AngularJs采用的是模块化的组织方式，将通用的逻辑代码封装成一个对象或者函数，用来提高代码的复用性，
+	这样就出现了使用者与被使用者的依赖关系。
+	所谓的依赖注入：是指在运行期间自动查找依赖关系，然后将查找到的依赖传递给使用者的一种机制
+
+	注入的方式有3种，常用的有2种
+		1.推断式注入
+			因为没有声明依赖关系，程序会自动将函数中的参数当做依赖，所以函数的参数必须为存在的AngularJs的依赖对象
+			如果写错，程序无法识别，当文件进行压缩之后，推断式依赖注入会造成依赖无法找到，所以建议使用行内注入
+		2.行内注入
+			将依赖写在[]里，多个依赖用 , 分割
+		// 3.inject注入
+		
+七、服务
+	1、$filter
+		可以当成9中过滤器中的任意一种来使用
+	2、$log
+		用于控制台信息的输出
+	3、$timeout
+		一次性定时器
+	4、$interval
+		定时器
+	5、$http
+		用于发送http请求 get post
+	6、$location
+
+
+	自定义服务
+	有3种方式:
+		service
+		factory
+		value
+
+
+	作业：
+	将最后案例中调用的值改成手动输入
+	在文本框中输入字母，文本框下同时显示拼接后的字母
+	双向数据绑定
+
+八、模板加载配置
+	启动-->初始化(配置和运行)-->运行
+	使用config方法对模块的配置
+	AngularJs中的服务绝大部分都有一个对应的provider，用来执行与之对应服务的功能或者执行配置，
+	比如 $filterProvider
+
+九、路由(route)
+	
+	SPA(Single Page Application)
+	单页面应用
+	通过一个页面来展示所有功能，通过Ajax动态获取数据，然后进行实时渲染，结合CSS3动画模仿原生的app
+
+	使用路由做单页面的特点:
+		1、不会产生页面的跳转
+		2、将若干功能集中到一个页面
+		3、动态生成数据，通过Ajax获取
+		4、增强性能，增强用户体验
+		5、模仿手机app的交互
+
+	单页面应用的要求：
+		1、只有一个页面，但是可以有多个视图
+		2、链接必须使用锚点
+
+
+
+	前端中的路由是锚点，AngularJs对这个实现原理进行了封装，将锚点的变化封装成路由(route)
+	路由的使用：
+		1、引入AngularJs和route文件
+			angular.min.js   angular-route.js
+		2、创建应用时需要依赖路由ngRoute
+			var app = angular.module("app",["ngRoute"]);
+		3、对路由进行配置
+			app.controller(["$routeProvider",function($routeProvider){
+				路由具体做的事
+				通过$routeProvider的when方法对路由进行具体配置
+				when方法里有2个参数第一个是字符串，表示url的hash值
+				第二个参数是一个对象用于匹配当前路由的参数，如视图，控制器等
+				该对象可以有的类型有 
+					template    : 返回一个字符串
+					redirectTO  : 重定向，跳转到其他的路由
+					templateUrl : 引入外部的视图
+					controller  ：视图模板所属的控制器名
+			}]);
+			
+		4、在视图中写一个占位符  ng-view
+			在需要展示数据的节点上添加ng-view属性
+			ng-view只负责视图的展示功能，不负责数据的解析
+
+	路由的参数
+	如何获取路由的参数
+
+作业：
+	1、复习：将当天的代码回顾并复习
+	2、将最后的music案例重写
+	3、独立完成案例
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
